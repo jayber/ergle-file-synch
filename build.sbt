@@ -9,5 +9,6 @@ libraryDependencies ++= Seq(
     "com.typesafe.play" %% "play" % "2.2.1",
     "org.specs2" %% "specs2" % "2.3.7" % "test",
     "javax.inject" % "javax.inject" % "1",
-    "org.mockito" % "mockito-core" % "1.9.5" % "test"
+    "org.mockito" % "mockito-core" % "1.9.5" % "test",
+    "com.typesafe" %% "scalalogging-slf4j" % "1.0.1"
 )

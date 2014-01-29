@@ -5,8 +5,9 @@ import javax.inject.{Named, Singleton, Inject}
 import ergle.PathsConfig
 import scala.concurrent._
 import java.util.concurrent.{TimeUnit, Executors}
+import com.typesafe.scalalogging.slf4j.Logging
 
-object Main extends App {
+object Main extends App with Logging {
 
   val es = Executors.newCachedThreadPool()
   implicit val ec = ExecutionContext.fromExecutorService(es)
@@ -24,7 +25,7 @@ object Main extends App {
     es.shutdown()
     es.awaitTermination(10, TimeUnit.SECONDS)
 
-    println("We're done bro")
+    logger.debug("We're done bro")
     sys.exit()
   }
 }

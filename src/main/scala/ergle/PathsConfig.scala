@@ -6,17 +6,11 @@ import scala.io.Source
 import scala.collection.mutable
 
 object PathsConfig {
-  private val parentFile: File = new File(System.getProperty("user.home"), ".ergle")
-
-  def parent: File = {
-    parentFile.mkdirs()
-    parentFile
-  }
 }
 
 trait PathsConfig {
 
-  val configFile: File = new File(PathsConfig.parent, "paths.list")
+  val configFile: File = new File(ConfigProvider.parent, "paths.list")
 
 
   def read() = {
