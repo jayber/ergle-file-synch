@@ -16,13 +16,9 @@ object ConfigProvider {
   }
 }
 
-trait ConfigProvider {
-  def config: Config
-}
-
 @Named
 @Singleton
-class ConfigProviderImpl extends ConfigProvider{
+class ConfigProvider {
   def config: Config = {
     val configFile: File = new File(ConfigProvider.parent, "application.properties")
     ConfigFactory.parseFile(configFile)

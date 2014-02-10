@@ -23,11 +23,13 @@ class FileSenderSpec extends Specification with Mockito {
 
       private val file = new File("file")
       val requestHolder = mock[WSRequestHolder]
-      requestHolder.post(file) returns mock[Future[Response]]
+      requestHolder.withQueryString(("filename","file")) returns requestHolder
+      private val future = mock[Future[Response]]
+      requestHolder.put(file) returns future
 
       send(file)
 
-      there was one(requestHolder).post(file)
+      there was one(requestHolder).put(file)
 
       override def url(url: String) = {
         url === testApiUrl

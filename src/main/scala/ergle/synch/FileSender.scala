@@ -24,7 +24,7 @@ class FileSenderImpl extends FileSender with Logging {
     val apiUrl = configProvider.config.getString(ConfigProvider.apiUrlKey)
     val requestHolder = url(apiUrl)
 
-    requestHolder.put(file).map { response =>
+    requestHolder.withQueryString(("filename",file.getName)).put(file).map { response =>
       logger.debug( s"response: ${response.body}")
     }
   }
