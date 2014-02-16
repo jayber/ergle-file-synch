@@ -18,11 +18,11 @@ class FolderSyncherImpl extends FolderSyncher with Logging {
   var fileLister: FileLister = null
 
   def synch(path: String)(implicit ec: ExecutionContext) {
-    logger.debug (s"synching path: $path")
+    logger.debug(s"synching path: $path")
     val fileList = fileLister.list(path)
 
     fileList.foreach {
       fileSender.send
     }
-      }
+  }
 }

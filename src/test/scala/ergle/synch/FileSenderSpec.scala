@@ -1,40 +1,39 @@
 package ergle.synch
 
-import org.specs2.mutable.Specification
 import java.io.File
-import org.specs2.mock.Mockito
-import org.specs2.specification.Scope
 import play.api.libs.ws.WS.WSRequestHolder
 import ergle.ConfigProvider
 import com.typesafe.config.Config
-import org.specs2.matcher.ThrownExpectations
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import play.api.libs.ws.Response
+import org.scalatest.FlatSpec
+import org.scalatest.mock.MockitoSugar
+import org.mockito.Mockito._
 
-class FileSenderSpec extends Specification with Mockito {
-  "FileSender" should {
-    "send files to web api" in new FileSenderImpl with Scope with ThrownExpectations {
+class FileSenderSpec extends FlatSpec with MockitoSugar {
+  "FileSender" should
+    "send files to web api" in new FileSenderImpl {
       configProvider = mock[ConfigProvider]
-      private val config = mock[Config]
-      configProvider.config returns config
-      private val testApiUrl = "testApiUrl"
-      config.getString(ConfigProvider.apiUrlKey) returns testApiUrl
+      val config = mock[Config]
+      when(configProvider.config) thenReturn config
+      val testApiUrl = "testApiUrl"
+      when(config.getString(ConfigProvider.apiUrlKey)) thenReturn testApiUrl
 
-      private val file = new File("file")
+      val file = new File("file")
       val requestHolder = mock[WSRequestHolder]
-      requestHolder.withQueryString(("filename","file")) returns requestHolder
-      private val future = mock[Future[Response]]
-      requestHolder.put(file) returns future
+      when(requestHolder.withQueryString(("filename","file"))) thenReturn requestHolder
+      val future = mock[Future[Response]]
+      when(requestHolder.put(file)) thenReturn future
 
       send(file)
 
-      there was one(requestHolder).put(file)
+      verify(requestHolder).put(file)
 
       override def url(url: String) = {
         url === testApiUrl
         requestHolder
       }
-    }
+
   }
 }
